@@ -31,6 +31,8 @@ function newCard(card){
 	return `<li class="card"><i class="${card}"></i></li>`;
 }
 
+//in this section I got started with help from the webinar by Mike
+
 function startGame(){
  	let cardCreate = shuffle(cards).map(function(card){
  	return newCard(card);
@@ -159,6 +161,7 @@ const stars = document.querySelector('.stars');
     interval = setInterval(startTimer, 10);
  }
 //function to get the timer started and place the text inside the spans
+//with a little help getting started from https://www.cssscript.com/a-minimal-pure-javascript-stopwatch/
 function startTimer(){
 	
 	milliseconds++;
