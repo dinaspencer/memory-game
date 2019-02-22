@@ -2,7 +2,7 @@
  //Create a list that holds all of your cards
 
 
- var cards = ['fa fa-diamond', 'fa fa-diamond',
+ const cards = ['fa fa-diamond', 'fa fa-diamond',
  				'fa fa-paper-plane-o', 'fa fa-paper-plane-o',
  				'fa fa-anchor', 'fa fa-anchor',
  				'fa fa-bolt', 'fa fa-bolt',
@@ -19,10 +19,12 @@
  */
 
  
-var deck = document.querySelector('.deck');
+const deck = document.querySelector('.deck');
 
 //put move counter in a variable
-var moves = document.querySelector('.moves');
+let moves = document.querySelector('.moves');
+
+
 
 
 function newCard(card){
@@ -30,7 +32,7 @@ function newCard(card){
 }
 
 function startGame(){
- 	var cardCreate = shuffle(cards).map(function(card){
+ 	let cardCreate = shuffle(cards).map(function(card){
  	return newCard(card);
  })
  	deck.innerHTML=cardCreate.join('');
@@ -43,7 +45,7 @@ startGame();
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+    let currentIndex = array.length, temporaryValue, randomIndex;
 
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
@@ -69,35 +71,40 @@ function shuffle(array) {
  */
 
 //initialize variables for cards and move counter
-var currentCards = [];
-var moveCounter = 0;
+let currentCards = [];
+let matchedCards = [];
+let moveCounter = 0;
 const allCards = document.querySelectorAll('.card');
 
 //set up event listener for a card - if a card is clicked:
 allCards.forEach(function(card){
 card.addEventListener('click', function(open){
 	showCard(card); //display card
+	timeUpdate(); //when first card clicked, timer starts
 	checkMatch(card); //add card to list of open cards, check match
 	countMoves(card); //update move counter
-});
+		if (matchedCards.length >=8){ //put matched cards in an array
+		gameOver();
+		}	
+});	
 });
 
-
+//open the first cards
  function showCard(card){
  	card.classList.add('open','show');
  }
 
-
+//check the two cards to see if their class names in their HTML match. if yes, keep open, if no, turn over
  function checkMatch(card){
  	currentCards.push(card);
-	console.log(currentCards);
-
-	if (currentCards[0].innerHTML == currentCards[1].innerHTML){
+	
+	if (currentCards[0].innerHTML === currentCards[1].innerHTML){
 		keepMatchOpen(card);
+		matchedCards.push(card);
+		//console.log(matchedCards);
  	}
 
-	else if (currentCards.length == 2) {
-		//&&(currentCards[0].innerHTML !== currentCards[1].innerHTML)
+	else if ((currentCards.length == 2)&&(currentCards[0].innerHTML !== currentCards[1].innerHTML)) {
 		closeNonMatch(card);
 	}
  }	
@@ -119,7 +126,7 @@ card.addEventListener('click', function(open){
 		}, 500);
 	}
 
-var stars = document.querySelector('.stars');
+const stars = document.querySelector('.stars');
  	
 //count moves and remove a star for every 10 moves
  function countMoves(card){
@@ -137,27 +144,75 @@ var stars = document.querySelector('.stars');
  	}
  }
 
+//timer variables
 
-/*
- 
+ let milliseconds=0;
+ let seconds=0;
+ let minutes=0;
+ let updateMilliseconds=document.querySelector('.timer-millisec');
+ let updateSeconds=document.querySelector('.timer-sec');
+ let updateMinutes=document.querySelector('.timer-min');
+ let interval;
 
- function timeOfGame(){
-	gameTime=document.querySelector('.timer');
-	setTime
+ function timeUpdate(){
+	clearInterval(interval);
+    interval = setInterval(startTimer, 10);
  }
+//function to get the timer started and place the text inside the spans
+function startTimer(){
+	
+	milliseconds++;
+	updateMilliseconds.innerHTML=milliseconds;
 
- function endOfGame(){
-	if all cards match, ....
-	stop timer
-	make move counter big, add words "final score"
-	and "final time"
- }
+	if (milliseconds > 99) {
+      	seconds++;
+     	updateSeconds.innerHTML = "0" + seconds;
+      	milliseconds = 0;
+      	updateMilliseconds.innerHTML = "0" + 0;
+    }
 
- function refreshGame(){
-	<i class="fa fa-repeat"></i>
-	when clicked, the board shuffles and restarts
- }
+    if (seconds > 9) {
+    	updateSeconds.innerHTML = seconds;
+    }
 
- */
+    
+    if (seconds > 59){
+    	minutes++;
+      	updateMinutes.innerHTML = minutes;
+      	seconds = 0;
+      	updateSeconds.innerHTML = "0" + 0;
+    }
+}
 
+//for the end of the game, the score panel will pop up and the text will get bigger
+const scorePanelEnd = document.querySelector('.score-panel');
+const finalScore = document.querySelector('h2');
+const scoreTextToAdd = '<h2>Final Score: </h2>';
+const finalTime = document.querySelector('h3');
+const timeTextToAdd = '<h3>Final Time: </h3>';
+const button = document.querySelector('button');
+const repeat = document.querySelector('.fa-repeat');
+
+	
+
+ function gameOver(){
+ 	console.log("I'm finished!");
+ 	clearInterval(interval);
+	scorePanelEnd.classList.add('endgame');//the new CSS class makes the box change
+	finalScore.insertAdjacentHTML('afterbegin', scoreTextToAdd);
+	finalTime.insertAdjacentHTML('afterbegin', timeTextToAdd);
+	button.classList.remove('playagain');
+	}
+
+button.addEventListener('click', function (replay){
+	playAgain();
+})
+
+repeat.addEventListener('click', function(replay){
+	playAgain();
+})
+
+function playAgain(){
+	window.location.reload();
+}
 

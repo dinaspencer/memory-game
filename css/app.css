@@ -21,6 +21,11 @@ body {
     font-family: 'Coda', cursive;
 }
 
+header {
+    display: flex;
+    flex-direction: row;
+}
+
 .container {
     display: flex;
     justify-content: center;
@@ -32,6 +37,13 @@ h1 {
     font-family: 'Open Sans', sans-serif;
     font-weight: 300;
 }
+
+
+/*a {
+    color: #000000;
+    margin-top: 30px;
+    padding-left: 30px;
+}*/
 
 /*
  * Styles for the deck of cards
@@ -86,13 +98,23 @@ h1 {
  */
 
 .score-panel {
-    text-align: left;
-    width: 345px;
+    width: 200px;
+    height: 200px;
     margin-bottom: 10px;
+    float: left;
+    background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
+    border-radius: 10px;
+    box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 300px;
+    margin-left: 80px;
+    padding: 10px;
 }
 
-.timer {
-    padding-left: 50px;
+.score-panel h3 {
+    margin-left: -50px;
 }
 
 .score-panel .stars {
@@ -100,6 +122,7 @@ h1 {
     padding: 0;
     display: inline-block;
     margin: 0 5px 0 0;
+
 }
 
 .score-panel .stars li {
@@ -107,7 +130,61 @@ h1 {
     display: inline-block;
 }
 
-.score-panel .restart {
+.timer-min {
+    padding-left: 50px;
+}
+
+.timer-millisec {
+    padding-right: 50px;
+    display: none;
+
+}
+header .fa.fa-repeat {
     float: right;
     cursor: pointer;
+    margin-top: 30px;
+    padding-left: 30px;
+    cursor:pointer;
 }
+
+.score-panel.endgame {
+    width: 500px;
+    height: 500px;
+    background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%), opacity 40%;
+    border-radius: 10px;
+    box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    padding: 10px;
+    color: white;
+}
+
+.score-panel.endgame h3 {
+    margin-left: -30px;
+}
+
+
+button {
+    width: 300px;
+    height: 50px;
+    background-color: #02ccba;
+    color: white;
+    padding: 10px;
+    font-size: 1.3em;
+    border-radius: 10px;
+    border: none;
+    vertical-align: center;
+    box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
+    cursor: pointer;
+}
+
+button.playagain {
+    display: none;
+}
+
